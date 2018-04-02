@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-var Schema = mongoose.Schema;
-var dependenceSchema = new Schema({
+let Schema = mongoose.Schema;
+let dependenceSchema = new Schema({
     name: String,
     acronym: String,
     annex: String,
