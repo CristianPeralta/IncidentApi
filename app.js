@@ -5,6 +5,7 @@ import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import mongodb from 'mongodb'
+import session from 'express-session'
 const MongoClient = mongodb.MongoClient;
 
 const index = require('./routes/index');
@@ -38,6 +39,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+app.use(session({
+    // When there is nothing on the session, do not save it
+    saveUninitialized: false,
+    // Update session if it changes
+    resave: true,
+    // Set cookie
+    cookie: {
+        secure: false,
+        maxAge: 365 * 24 * 60 * 60 * 1000
+    },
+    // Name of your cookie
+    name: 'testCookie',
+    // Secret of your cookie
+    secret: 'thisIsSecret'
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
