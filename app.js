@@ -1,9 +1,11 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import express from 'express'
+import path from 'path'
+import favicon from 'serve-favicon'
+import logger from 'morgan'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import mongodb from 'mongodb'
+const MongoClient = mongodb.MongoClient;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -16,6 +18,18 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+const dbc = {
+  host: "127.0.0.1",
+  port: 27017,
+  name: "incidenciasapi"
+}
+
+MongoClient.connect("mongodb://"+dbc.host+":"+dbc.port+"/"+dbc.name, function(err, client) {
+    if(err)
+      throw err;
+    console.log("Connected to the mongoDB ! -> mongodb://"+dbc.host+":"+dbc.port+"/"+dbc.name);
+  });
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
