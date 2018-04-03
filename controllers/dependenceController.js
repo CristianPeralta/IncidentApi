@@ -26,12 +26,23 @@ module.exports.read(req, res) => {
   })
 }
 
+module.exports.getOne(req, res) => {
+  let id = req.params.id
+
+  Dependence.findOne({_id: id}).exec((err, dependence) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    return res.json(dependence)
+  })
+}
+
 module.exports.update(req, res) => {
   let data = req.body
-  let id = data._id;
-  delete data._id;
+  let id = data._id
+  delete data._id
 
-  dependence = new Dependence(data)
   Dependence.findOneAndUpdate({_id: id}, data, (err, dependence) => {
     if(err){
       console.log(err)
@@ -42,8 +53,9 @@ module.exports.update(req, res) => {
   })
 }
 
+
 module.exports.delete(req, res) => {
-  let id = req.body
+  let id = req.params.id
 
   Dependence.findOneAndRemove({_id: id}, (err, dependence) => {
     if(err){

@@ -26,6 +26,57 @@ module.exports.create = function (req, res) {
   });
 }
 
+module.exports.getOne(req, res) => {
+  let id = req.params.id
+
+  User.findOne({_id: id}).exec((err, user) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    return res.json(user)
+  })
+}
+
+module.exports.read(req, res) => {
+
+  User.find({}).exec((err, users) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    return res.json(users)
+  })
+}
+
+module.exports.update(req, res) => {
+  let data = req.body
+  let id = data._id
+  delete data._id
+
+  User.findOneAndUpdate({_id: id}, data, (err, user) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    console.log(user)
+    return res.json(user)
+  })
+}
+
+module.exports.delete(req, res) => {
+  let id = req.params.id
+
+  User.findOneAndRemove({_id: id}, (err, user) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    console.log(user)
+    return res.json(user)
+  })
+}
+
 module.exports.login = function (req,res) {
   let data = req.body
   User.findOne({email:data.email}).then((user, err) => {
