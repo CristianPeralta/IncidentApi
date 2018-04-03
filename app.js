@@ -40,6 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+let clients = []
+
 app.use(session({
     // When there is nothing on the session, do not save it
     saveUninitialized: false,

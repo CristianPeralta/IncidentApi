@@ -15,7 +15,7 @@ module.exports.create = function (req, res) {
   user.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
   user.password = bcrypt.hashSync(data.password, 10)
 
-  user.save(function (err,user) {
+  user.save(function (err, user) {
       if(err){
         console.log(err)
         return res.sendStatus(503)
