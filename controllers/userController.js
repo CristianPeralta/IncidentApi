@@ -26,7 +26,7 @@ module.exports.create = function (req, res) {
   });
 }
 
-module.exports.getOne(req, res) => {
+module.exports.getOne = (req, res) => {
   let id = req.params.id
 
   User.findOne({_id: id}).exec((err, user) => {
@@ -38,7 +38,7 @@ module.exports.getOne(req, res) => {
   })
 }
 
-module.exports.read(req, res) => {
+module.exports.read = (req, res) => {
 
   User.find({}).exec((err, users) => {
     if(err){
@@ -49,7 +49,18 @@ module.exports.read(req, res) => {
   })
 }
 
-module.exports.update(req, res) => {
+module.exports.readBy = (req, res) => {
+  let filters = req.body
+  User.find(filters).exec((err, users) => {
+    if(err){
+      console.log(err)
+      return res.sendStatus(503)
+    }
+    return res.json(users)
+  })
+}
+
+module.exports.update = (req, res) => {
   let data = req.body
   let id = data._id
   delete data._id
@@ -64,7 +75,7 @@ module.exports.update(req, res) => {
   })
 }
 
-module.exports.delete(req, res) => {
+module.exports.delete = (req, res) => {
   let id = req.params.id
 
   User.findOneAndRemove({_id: id}, (err, user) => {

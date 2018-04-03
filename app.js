@@ -10,6 +10,7 @@ const MongoClient = mongodb.MongoClient;
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const dependences = require('./routes/dependences');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/dependences', dependences);
 
 let clients = []
 
