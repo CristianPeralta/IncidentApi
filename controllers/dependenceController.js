@@ -1,16 +1,16 @@
-import User from '../models/Dependence'
+import Dependence from '../models/Dependence'
 import mongoose from 'mongoose'
 
 
 module.exports.create = (req, res) => {
   let data = req.body
-  dependence = new Dependence(data)
-
-  dependence.save(function (err, dependence) {
+  console.log(data)
+  Dependence.create(data, function (err, dependence) {
       if(err){
         console.log(err)
         return res.sendStatus(503)
       }
+      console.log(dependence)
       return res.json(dependence)
   })
 }
