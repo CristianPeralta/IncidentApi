@@ -3,7 +3,7 @@ import express from 'express'
 
 const router = express.Router()
 
-/* GET users listing. */
+/* GET dependences listing. */
 
 router.get('/', dependenceController.read)
 router.get('/{id}', dependenceController.getOne)

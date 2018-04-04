@@ -100,21 +100,8 @@ module.exports.login = function (req,res) {
         console.log(err)
         return res.sendStatus(503)
       }
-      req.session.user = user
-      let currentUser = req.session.user
-      return res.json(currentUser)
+      return res.json(user)
     }
 
   })
-}
-
-module.exports.logout= function (req,res) {
-    req.session.destroy(function(err) {
-      // cannot access session here
-      if(err){
-        console.log(err);
-        return res.sendStatus(503)
-      }
-      return res.sendStatus(200);
-    })
 }
