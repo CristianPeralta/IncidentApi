@@ -5,24 +5,23 @@ import User from '../models/User'
 
 module.exports.create = function (req, res) {
   let data = req.body
+  let user = new User()
   user.name = data.name
   user.email = data.email
   user.lastname = data.lastname
   user.dni = data.dni
   user.cellphone = data.cellphone
-  user.role = data.role
+  data.role ? (user.role = data.role) : console.log('No role');
   user.dependence = mongoose.Types.ObjectId(data.dependence)
-  user.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
+  data.registeredBy ? (user.registeredBy = mongoose.Types.ObjectId(data.registeredBy)) : console.log('No registeredBy');
   user.password = bcrypt.hashSync(data.password, 10)
-
   user.save(function (err, user) {
       if(err){
         console.log(err)
         return res.sendStatus(503)
       }
-      req.session.user = user
-      let currentUser = req.session.user
-      return res.json(currentUser)
+      console.log(user);
+      return res.json(user)
   });
 }
 
@@ -90,6 +89,7 @@ module.exports.delete = (req, res) => {
 
 module.exports.login = function (req,res) {
   let data = req.body
+  console.log('api login');
   User.findOne({email:data.email}).then((user, err) => {
     if(err){
       console.log(err)

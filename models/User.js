@@ -9,7 +9,7 @@ let userSchema = new Schema({
     dni: String,
     cellphone: String,
     status: {type: String, default: false},
-    role: String,
+    role: {type: String, default: 'client'},
     dependence: {type: mongoose.Schema.Types.ObjectId, ref: 'Dependence'},
     registeredBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     createdAt:{ type: Date, default: Date.now}
