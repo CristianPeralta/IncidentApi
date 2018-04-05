@@ -4,15 +4,22 @@ import favicon from 'serve-favicon'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import mongodb from 'mongodb'
+import mongoose from 'mongoose'
 import session from 'express-session'
-const MongoClient = mongodb.MongoClient;
+import cors from 'cors'
 
+
+const app = express();
 const index = require('./routes/index');
 const users = require('./routes/users');
 const dependences = require('./routes/dependences');
 
-const app = express();
+mongoose.connect('mongodb://localhost:27017/incidenciasapi', function(err, db) {
+    if (err) {
+      throw err;
+    }
+    console.log("Connected to the mongoDB ! -> mongodb://localhost:27017/incidenciasapi");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,17 +27,9 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-const dbc = {
-  host: "127.0.0.1",
-  port: 27017,
-  name: "incidenciasapi"
-}
 
-MongoClient.connect("mongodb://"+dbc.host+":"+dbc.port+"/"+dbc.name, function(err, client) {
-    if(err)
-      throw err;
-    console.log("Connected to the mongoDB ! -> mongodb://"+dbc.host+":"+dbc.port+"/"+dbc.name);
-  });
+
+app.use(cors({origin:true,credentials: true}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

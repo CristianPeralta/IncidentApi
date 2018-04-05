@@ -4,19 +4,19 @@ import mongoose from 'mongoose'
 
 module.exports.create = (req, res) => {
   let data = req.body
-  console.log(data)
-  Dependence.create(data, function (err, dependence) {
+  let newDependence = new Dependence(data)
+
+  newDependence.save((err, dependence) => {
       if(err){
         console.log(err)
         return res.sendStatus(503)
       }
       console.log(dependence)
       return res.json(dependence)
-  })
+  });
 }
 
 module.exports.read = (req, res) => {
-
   Dependence.find({}).exec((err, dependence) => {
     if(err){
       console.log(err)

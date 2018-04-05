@@ -11,4 +11,5 @@ let dependenceSchema = new Schema({
     createdAt:{ type: Date, default: Date.now}
 });
 
-module.exports = mongoose.model('Dependence',dependenceSchema);
+let Dependence = mongoose.model('Dependence',dependenceSchema);
+module.exports = Dependence;
