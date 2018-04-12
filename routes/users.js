@@ -10,7 +10,7 @@ router.get('/{id}', userController.getOne)
 router.get('/filter', userController.readBy)
 
 router.post('/', userController.create)
-router.post('/update/{id}', userController.update)
-router.post('/delete/{id}', userController.delete)
+router.put('/{id}', userController.update)
+router.delete('/{id}', userController.delete)
 
 module.exports = router

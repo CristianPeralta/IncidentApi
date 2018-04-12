@@ -10,7 +10,7 @@ router.get('/{id}', dependenceController.getOne)
 router.get('/filter', dependenceController.readBy)
 
 router.post('/', dependenceController.create)
-router.post('/update/{id}', dependenceController.update)
-router.post('/delete/{id}', dependenceController.delete)
+router.put('/{id}', dependenceController.update)
+router.delete('/{id}', dependenceController.delete)
 
 module.exports = router

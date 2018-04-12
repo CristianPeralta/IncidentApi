@@ -89,7 +89,6 @@ module.exports.delete = (req, res) => {
 
 module.exports.login = function (req,res) {
   let data = req.body
-  console.log('api login');
   User.findOne({email:data.email}).then((user, err) => {
     if(err){
       console.log(err)
