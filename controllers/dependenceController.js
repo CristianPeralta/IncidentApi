@@ -7,21 +7,14 @@ module.exports.create = (req, res) => {
   let newDependence = new Dependence(data)
 
   newDependence.save((err, dependence) => {
-      if(err){
-        console.log(err)
-        return res.sendStatus(503)
-      }
-      console.log(dependence)
+      if (err) return res.sendStatus(503)
       return res.json(dependence)
   });
 }
 
 module.exports.read = (req, res) => {
   Dependence.find({}).exec((err, dependence) => {
-    if(err){
-      console.log(err)
-      return res.sendStatus(503)
-    }
+    if (err) return res.sendStatus(503)
     return res.json(dependence)
   })
 }
@@ -29,10 +22,7 @@ module.exports.read = (req, res) => {
 module.exports.readBy = (req, res) => {
   let filters = req.body
   Dependence.find(filters).exec((err, dependence) => {
-    if(err){
-      console.log(err)
-      return res.sendStatus(503)
-    }
+    if (err) return res.sendStatus(503)
     return res.json(dependence)
   })
 }
@@ -41,10 +31,7 @@ module.exports.getOne = (req, res) => {
   let id = req.params.id
 
   Dependence.findOne({_id: id}).exec((err, dependence) => {
-    if(err){
-      console.log(err)
-      return res.sendStatus(503)
-    }
+    if (err) return res.sendStatus(503)
     return res.json(dependence)
   })
 }
@@ -55,25 +42,16 @@ module.exports.update = (req, res) => {
   delete data._id
 
   Dependence.findOneAndUpdate({_id: id}, data, (err, dependence) => {
-    if(err){
-      console.log(err)
-      return res.sendStatus(503)
-    }
-    console.log(dependence)
+    if (err) return res.sendStatus(503)
     return res.json(dependence)
   })
 }
-
 
 module.exports.delete = (req, res) => {
   let id = req.params.id
 
   Dependence.findOneAndRemove({_id: id}, (err, dependence) => {
-    if(err){
-      console.log(err)
-      return res.sendStatus(503)
-    }
-    console.log(dependence)
+    if (err) return res.sendStatus(503)
     return res.json(dependence)
   })
 }
