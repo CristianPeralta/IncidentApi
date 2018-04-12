@@ -15,6 +15,7 @@ module.exports.create = (req, res) => {
 module.exports.read = (req, res) => {
   Dependence.find({}).exec((err, dependence) => {
     if (err) return res.sendStatus(503)
+    if (!dependence) return res.sendStatus(404)
     return res.json(dependence)
   })
 }
@@ -23,6 +24,7 @@ module.exports.readBy = (req, res) => {
   let filters = req.body
   Dependence.find(filters).exec((err, dependence) => {
     if (err) return res.sendStatus(503)
+    if (!dependence) return res.sendStatus(404)
     return res.json(dependence)
   })
 }
@@ -32,6 +34,7 @@ module.exports.getOne = (req, res) => {
 
   Dependence.findOne({_id: id}).exec((err, dependence) => {
     if (err) return res.sendStatus(503)
+    if (!dependence) return res.sendStatus(404)
     return res.json(dependence)
   })
 }
@@ -43,6 +46,7 @@ module.exports.update = (req, res) => {
 
   Dependence.findOneAndUpdate({_id: id}, data, (err, dependence) => {
     if (err) return res.sendStatus(503)
+    if (!dependence) return res.sendStatus(404)
     return res.json(dependence)
   })
 }
@@ -50,8 +54,8 @@ module.exports.update = (req, res) => {
 module.exports.delete = (req, res) => {
   let id = req.params.id
 
-  Dependence.findOneAndRemove({_id: id}, (err, dependence) => {
+  Dependence.findOneAndRemove({_id: id}, (err) => {
     if (err) return res.sendStatus(503)
-    return res.json(dependence)
+    return res.json(200)
   })
 }

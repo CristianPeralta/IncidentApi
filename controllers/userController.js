@@ -26,6 +26,7 @@ module.exports.getOne = (req, res) => {
 
   User.findOne({_id: id}).exec((err, user) => {
     if (err) return res.sendStatus(503)
+    if (!user) return res.sendStatus(404)
     return res.json(user)
   })
 }
@@ -34,6 +35,7 @@ module.exports.read = (req, res) => {
 
   User.find({}).exec((err, users) => {
     if (err) return res.sendStatus(503)
+    if (!users) return res.sendStatus(404)
     return res.json(users)
   })
 }
@@ -42,6 +44,7 @@ module.exports.readBy = (req, res) => {
   let filters = req.body
   User.find(filters).exec((err, users) => {
     if (err) return res.sendStatus(503)
+    if (!users) return res.sendStatus(404)
     return res.json(users)
   })
 }
@@ -53,6 +56,7 @@ module.exports.update = (req, res) => {
 
   User.findOneAndUpdate({_id: id}, data, (err, user) => {
     if (err) return res.sendStatus(503)
+    if (!user) return res.sendStatus(404)
     return res.json(user)
   })
 }
@@ -60,9 +64,9 @@ module.exports.update = (req, res) => {
 module.exports.delete = (req, res) => {
   let id = req.params.id
 
-  User.findOneAndRemove({_id: id}, (err, user) => {
+  User.findOneAndRemove({_id: id}, (err) => {
     if (err) return res.sendStatus(503)
-    return res.json(user)
+    return res.json(200)
   })
 }
 
@@ -70,6 +74,7 @@ module.exports.login = (req,res) => {
   let data = req.body
   User.findOne({email:data.email}).then((user, err) => {
     if (err) return res.sendStatus(503)
+    if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
       if (err) return res.sendStatus(503)
       return res.json(user)
