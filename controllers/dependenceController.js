@@ -44,7 +44,7 @@ module.exports.update = (req, res) => {
   let id = data._id
   delete data._id
 
-  Dependence.findOneAndUpdate({_id: id}, data, (err, dependence) => {
+  Dependence.findOneAndUpdate({_id: id}, data, {new: true}, (err, dependence) => {
     if (err) return res.sendStatus(503)
     if (!dependence) return res.sendStatus(404)
     return res.json(dependence)

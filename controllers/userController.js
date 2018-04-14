@@ -54,7 +54,7 @@ module.exports.update = (req, res) => {
   let id = data._id
   delete data._id
 
-  User.findOneAndUpdate({_id: id}, data, (err, user) => {
+  User.findOneAndUpdate({_id: id}, data, {new: true}, (err, user) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
     return res.json(user)
