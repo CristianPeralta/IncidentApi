@@ -7,19 +7,20 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import cors from 'cors'
-
+import initializeDatabases from './db'
 
 const app = express();
 const index = require('./routes/index');
 const users = require('./routes/users');
 const dependences = require('./routes/dependences');
 
-mongoose.connect('mongodb://localhost:27017/incidenciasapi', function(err, db) {
-    if (err) {
-      throw err;
-    }
-    console.log("Connected to the mongoDB ! -> mongodb://localhost:27017/incidenciasapi");
-});
+initializeDatabases().then(dbs => {
+  console.log('We are connented to DB');
+}).catch(err => {
+  console.error('Failed to make all database connections!')
+  console.error(err)
+  process.exit(1)
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
