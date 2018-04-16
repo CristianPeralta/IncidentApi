@@ -4,15 +4,19 @@ import mongoose from 'mongoose'
 
 module.exports.create = (req, res) => {
   let data = req.body
-  console.log(req.file)
   let newDependence = new Dependence()
-  
+
   newDependence.name = data.name
   newDependence.acronym = data.acronym
   newDependence.annex = data.annex
   newDependence.latitude = data.latitude
   newDependence.longitude = data.longitude
-  newDependence.photo = req.file.fieldname
+  if (req.file) {
+    console.log('uploaded');
+    newDependence.photo = req.file.path
+  } else {
+    console.log('photo doesnt upload');
+  }
 
   newDependence.save((err, dependence) => {
       if (err) {

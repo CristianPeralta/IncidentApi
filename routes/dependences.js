@@ -1,19 +1,21 @@
 import dependenceController from '../controllers/dependenceController'
 import express from 'express'
 import multer from 'multer'
+import path from 'path'
 
 const router = express.Router()
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/')
+    cb(null, 'public/uploads/')
   },
   filename: (req, file, cb) => {
-    cb(null, path.extname(file.originalname) + Date.now())
+    console.log(file)
+    cb(null, Date.now() + file.originalname)
   }
 });
 
-var upload = multer({ storage: storage });
+var upload = multer({ storage: storage })
 
 /* GET dependences listing. */
 
