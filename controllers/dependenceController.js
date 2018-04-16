@@ -4,10 +4,21 @@ import mongoose from 'mongoose'
 
 module.exports.create = (req, res) => {
   let data = req.body
-  let newDependence = new Dependence(data)
+  console.log(req.file)
+  let newDependence = new Dependence()
+  
+  newDependence.name = data.name
+  newDependence.acronym = data.acronym
+  newDependence.annex = data.annex
+  newDependence.latitude = data.latitude
+  newDependence.longitude = data.longitude
+  newDependence.photo = req.file.fieldname
 
   newDependence.save((err, dependence) => {
-      if (err) return res.sendStatus(503)
+      if (err) {
+        console.log(err)
+        return res.sendStatus(503)
+      }
       return res.json(dependence)
   });
 }

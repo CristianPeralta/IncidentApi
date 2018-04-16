@@ -7,7 +7,7 @@ let dependenceSchema = new Schema({
     annex: String,
     latitude: String,
     longitude: String,
-    photoUrl: String,
+    photo: String,
     createdAt:{ type: Date, default: Date.now}
 });
 
