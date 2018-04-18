@@ -24,7 +24,7 @@ router.get('/{id}', dependenceController.getOne)
 router.get('/filter', dependenceController.readBy)
 
 router.post('/', upload.single('photo'), dependenceController.create)
-router.put('/{id}', dependenceController.update)
+router.put('/', upload.single('photo'), dependenceController.update)
 router.delete('/{id}', dependenceController.delete)
 
 module.exports = router

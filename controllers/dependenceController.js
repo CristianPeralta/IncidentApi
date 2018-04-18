@@ -11,18 +11,12 @@ module.exports.create = (req, res) => {
   newDependence.annex = data.annex
   newDependence.latitude = data.latitude
   newDependence.longitude = data.longitude
-  if (req.file) {
-    console.log('uploaded');
-    newDependence.photo = req.file.path
-  } else {
-    console.log('photo doesnt upload');
-  }
+
+  if (req.file) newDependence.photo = req.file.path
 
   newDependence.save((err, dependence) => {
-      if (err) {
-        console.log(err)
-        return res.sendStatus(503)
-      }
+      if (err) return res.sendStatus(503)
+      if (!dependence) return res.sendStatus(404)
       return res.json(dependence)
   });
 }

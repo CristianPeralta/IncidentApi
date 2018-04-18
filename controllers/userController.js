@@ -24,7 +24,7 @@ module.exports.create = (req, res) => {
 module.exports.getOne = (req, res) => {
   let id = req.params.id
 
-  User.findOne({_id: id}).exec((err, user) => {
+  User.findOne({_id: id}).populate('dependence').exec((err, user) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
     return res.json(user)
@@ -33,7 +33,7 @@ module.exports.getOne = (req, res) => {
 
 module.exports.read = (req, res) => {
 
-  User.find({}).exec((err, users) => {
+  User.find({}).populate('dependence').exec((err, users) => {
     if (err) return res.sendStatus(503)
     if (!users) return res.sendStatus(404)
     return res.json(users)
@@ -42,7 +42,7 @@ module.exports.read = (req, res) => {
 
 module.exports.readBy = (req, res) => {
   let filters = req.body
-  User.find(filters).exec((err, users) => {
+  User.find(filters).populate('dependence').exec((err, users) => {
     if (err) return res.sendStatus(503)
     if (!users) return res.sendStatus(404)
     return res.json(users)
@@ -52,12 +52,17 @@ module.exports.readBy = (req, res) => {
 module.exports.update = (req, res) => {
   let data = req.body
   let id = data._id
+  console.log('asdasd')
+  console.log(data)
   delete data._id
-
   User.findOneAndUpdate({_id: id}, data, {new: true}, (err, user) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
-    return res.json(user)
+    User.findOne({_id: user._id}).populate('dependence').exec((err, user) => {
+      if (err) return res.sendStatus(503)
+      if (!user) return res.sendStatus(404)
+      return res.json(user)
+    })
   })
 }
 
@@ -72,7 +77,7 @@ module.exports.delete = (req, res) => {
 
 module.exports.login = (req,res) => {
   let data = req.body
-  User.findOne({email:data.email}).then((user, err) => {
+  User.findOne({email:data.email}).populate('dependence').then((user, err) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
