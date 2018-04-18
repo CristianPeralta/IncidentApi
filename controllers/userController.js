@@ -33,7 +33,7 @@ module.exports.getOne = (req, res) => {
 
 module.exports.read = (req, res) => {
 
-  User.find({}).populate('dependence').exec((err, users) => {
+  User.find({}).populate('dependence', 'acronym').exec((err, users) => {
     if (err) return res.sendStatus(503)
     if (!users) return res.sendStatus(404)
     return res.json(users)
@@ -77,7 +77,7 @@ module.exports.delete = (req, res) => {
 
 module.exports.login = (req,res) => {
   let data = req.body
-  User.findOne({email:data.email}).populate('dependence').then((user, err) => {
+  User.findOne({email:data.email}).select('+password').populate('dependence').then((user, err) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
