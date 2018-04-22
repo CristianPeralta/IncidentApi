@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 
 import User from '../models/User'
+import jwt from 'jsonwebtoken'
 
 module.exports.create = (req, res) => {
   let data = req.body
@@ -52,8 +53,6 @@ module.exports.readBy = (req, res) => {
 module.exports.update = (req, res) => {
   let data = req.body
   let id = data._id
-  console.log('asdasd')
-  console.log(data)
   delete data._id
   User.findOneAndUpdate({_id: id}, data, {new: true}, (err, user) => {
     if (err) return res.sendStatus(503)
@@ -82,7 +81,10 @@ module.exports.login = (req,res) => {
     if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
       if (err) return res.sendStatus(503)
-      return res.json(user)
+      let token = jwt.sign({id:user._id, role: user.role}, 'apisecretkeyincident', {
+        expiresinMinutes: 1440
+      })
+      return res.json(token)
     }
   })
 }
