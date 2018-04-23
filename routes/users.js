@@ -9,6 +9,7 @@ router.use(middleware.verify)
 
 router.get('/', userController.read)
 router.get('/{id}', userController.getOne)
+router.get('/me', userController.getUser)
 router.get('/filter', userController.readBy)
 
 router.post('/', userController.create)

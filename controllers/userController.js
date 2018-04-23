@@ -50,6 +50,17 @@ module.exports.readBy = (req, res) => {
   })
 }
 
+module.exports.getUser = (req, res) => {
+  if (req.user) {
+    let id = req.user
+    User.findOne({_id:id}).populate('dependence').exec((err, user) => {
+      if (err) return res.sendStatus(503)
+      if (!user) return res.sendStatus(404)
+      return res.json(user)
+    })
+  }
+}
+
 module.exports.update = (req, res) => {
   let data = req.body
   let id = data._id
@@ -85,8 +96,6 @@ module.exports.login = (req,res) => {
         id: user._id,
         role: user.role
       }
-      console.log('payload')
-      console.log(payload)
       let token = jwt.sign(payload, 'apisecretkeyincident', {
         expiresIn: '24h'
       })

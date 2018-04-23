@@ -11,10 +11,13 @@ exports.verify = function (req, res, next) {
      // verifies secret and checks exp
      try {
        var decoded = jwt.verify(token, 'apisecretkeyincident');
-       return res.json(token)
+       console.log(decoded)
+       req.user = decoded.id
+       next();
      } catch(err) {
        // err
-       return res.sendStatus(500)
+       console.log(err)
+       return res.sendStatus(401)
      }
 
    } else {
