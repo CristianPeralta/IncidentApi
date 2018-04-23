@@ -81,11 +81,16 @@ module.exports.login = (req,res) => {
     if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
       if (err) return res.sendStatus(503)
-      let token = jwt.sign({id:user._id, role: user.role}, 'apisecretkeyincident', {
+      let payload = {
+        id: user._id,
+        role: user.role
+      }
+      console.log('payload')
+      console.log(payload)
+      let token = jwt.sign(payload, 'apisecretkeyincident', {
         expiresIn: '24h'
       })
-      console.log(token)
-      return res.json(token)
+      res.json(token)
     }
   })
 }
