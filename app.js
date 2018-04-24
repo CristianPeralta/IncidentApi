@@ -13,6 +13,7 @@ const app = express();
 const index = require('./routes/index');
 const users = require('./routes/users');
 const dependences = require('./routes/dependences');
+const incidents = require('./routes/incidents');
 
 initializeDatabases().then(dbs => {
   console.log('We are connented to DB');
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1', index);
 app.use('/api/v1/users', users);
 app.use('/api/v1/dependences', dependences);
+app.use('/api/v1/incidents', incidents);
 
 let clients = []
 
