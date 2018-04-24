@@ -27,3 +27,22 @@ module.exports.read = (req, res) => {
     return res.json(incident)
   })
 }
+
+module.exports.readBy = (req, res) => {
+  let filters = req.body
+  Incident.find(filters).exec((err, incident) => {
+    if (err) return res.sendStatus(503)
+    if (!incident) return res.sendStatus(404)
+    return res.json(incident)
+  })
+}
+
+module.exports.getOne = (req, res) => {
+  let id = req.params.id
+
+  Incident.findOne({_id: id}).exec((err, incident) => {
+    if (err) return res.sendStatus(503)
+    if (!incident) return res.sendStatus(404)
+    return res.json(incident)
+  })
+}
