@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 let Schema = mongoose.Schema;
 let incidentSchema = new Schema({
-    status: {type: String, default: false},
+    status: {type: String, default: 'pending'},
     priority: String,
     category: String,
     photo: String,

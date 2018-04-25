@@ -7,11 +7,15 @@ module.exports.create = (req, res) => {
   let newIncident = new Incident()
 
   newIncident.name = data.name
-  newIncident.status = data.status
+  if (data.status) {
+    newIncident.status = data.status
+  }
   newIncident.priority = data.priority
   newIncident.category = data.category
   newIncident.client = mongoose.Types.ObjectId(data.client)
-  newIncident.technician = mongoose.Types.ObjectId(data.technician)
+  if (data.technician) {
+    newIncident.technician = mongoose.Types.ObjectId(data.technician)
+  }
   newIncident.dependence = mongoose.Types.ObjectId(data.dependence)
   newIncident.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
 
@@ -20,7 +24,11 @@ module.exports.create = (req, res) => {
   newIncident.save((err, incident) => {
       if (err) return res.sendStatus(503)
       if (!incident) return res.sendStatus(404)
-      return res.json(incident)
+      Incident.findOne({_id: incident._id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
+        if (err) return res.sendStatus(503)
+        if (!incident) return res.sendStatus(404)
+        return res.json(incident)
+      })
   });
 }
 
@@ -59,7 +67,11 @@ module.exports.update = (req, res) => {
   Incident.findOneAndUpdate({_id: id}, data, {new: true}, (err, incident) => {
     if (err) return res.sendStatus(503)
     if (!incident) return res.sendStatus(404)
-    return res.json(incident)
+    Incident.findOne({_id: incident._id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
+      if (err) return res.sendStatus(503)
+      if (!incident) return res.sendStatus(404)
+      return res.json(incident)
+    })
   })
 }
 
