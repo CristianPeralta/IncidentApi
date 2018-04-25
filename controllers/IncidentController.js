@@ -8,7 +8,11 @@ module.exports.create = (req, res) => {
 
   newIncident.name = data.name
   newIncident.status = data.status
+  newIncident.priority = data.priority
+  newIncident.category = data.category
   newIncident.client = mongoose.Types.ObjectId(data.client)
+  newIncident.technician = mongoose.Types.ObjectId(data.technician)
+  newIncident.dependence = mongoose.Types.ObjectId(data.dependence)
   newIncident.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
 
   if (req.file) newIncident.photo = req.file.path
@@ -21,7 +25,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.read = (req, res) => {
-  Incident.find({}).exec((err, incident) => {
+  Incident.find({}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
     if (err) return res.sendStatus(503)
     if (!incident) return res.sendStatus(404)
     return res.json(incident)
@@ -30,7 +34,7 @@ module.exports.read = (req, res) => {
 
 module.exports.readBy = (req, res) => {
   let filters = req.body
-  Incident.find(filters).exec((err, incident) => {
+  Incident.find(filters).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
     if (err) return res.sendStatus(503)
     if (!incident) return res.sendStatus(404)
     return res.json(incident)
@@ -40,7 +44,7 @@ module.exports.readBy = (req, res) => {
 module.exports.getOne = (req, res) => {
   let id = req.params.id
 
-  Incident.findOne({_id: id}).exec((err, incident) => {
+  Incident.findOne({_id: id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
     if (err) return res.sendStatus(503)
     if (!incident) return res.sendStatus(404)
     return res.json(incident)
