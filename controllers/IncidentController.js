@@ -46,3 +46,24 @@ module.exports.getOne = (req, res) => {
     return res.json(incident)
   })
 }
+
+module.exports.update = (req, res) => {
+  let data = req.body
+  let id = data._id
+  delete data._id
+
+  Incident.findOneAndUpdate({_id: id}, data, {new: true}, (err, incident) => {
+    if (err) return res.sendStatus(503)
+    if (!incident) return res.sendStatus(404)
+    return res.json(incident)
+  })
+}
+
+module.exports.delete = (req, res) => {
+  let id = req.params.id
+
+  Incident.findOneAndRemove({_id: id}, (err) => {
+    if (err) return res.sendStatus(503)
+    return res.json(200)
+  })
+}
