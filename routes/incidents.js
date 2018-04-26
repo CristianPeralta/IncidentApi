@@ -20,11 +20,11 @@ var upload = multer({ storage: storage })
 /* GET dependences listing. */
 
 router.get('/', incidentController.read)
-router.get('/{id}', incidentController.getOne)
+router.get('/:id', incidentController.getOne)
 router.get('/filter', incidentController.readBy)
 
 router.post('/', upload.single('photo'), incidentController.create)
 router.put('/', upload.single('photo'), incidentController.update)
-router.delete('/{id}', incidentController.delete)
+router.delete('/:id', incidentController.delete)
 
 module.exports = router

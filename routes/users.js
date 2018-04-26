@@ -7,13 +7,13 @@ const router = express.Router()
 router.use(middleware.verify)
 /* GET users listing. */
 
+router.get('/:id', userController.getOne)
 router.get('/', userController.read)
-router.get('/{id}', userController.getOne)
 router.get('/me', userController.getUser)
 router.get('/filter', userController.readBy)
 
 router.post('/', userController.create)
 router.put('/', userController.update)
-router.delete('/{id}', userController.delete)
+router.delete('/:id', userController.delete)
 
 module.exports = router

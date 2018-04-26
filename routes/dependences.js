@@ -20,11 +20,11 @@ var upload = multer({ storage: storage })
 /* GET dependences listing. */
 
 router.get('/', dependenceController.read)
-router.get('/{id}', dependenceController.getOne)
+router.get('/:id', dependenceController.getOne)
 router.get('/filter', dependenceController.readBy)
 
 router.post('/', upload.single('photo'), dependenceController.create)
 router.put('/', upload.single('photo'), dependenceController.update)
-router.delete('/{id}', dependenceController.delete)
+router.delete('/:id', dependenceController.delete)
 
 module.exports = router

@@ -24,7 +24,6 @@ module.exports.create = (req, res) => {
 
 module.exports.getOne = (req, res) => {
   let id = req.params.id
-
   User.findOne({_id: id}).populate('dependence').exec((err, user) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
@@ -51,6 +50,7 @@ module.exports.readBy = (req, res) => {
 }
 
 module.exports.getUser = (req, res) => {
+  console.log('asdasd')
   if (req.user) {
     let id = req.user
     User.findOne({_id:id}).populate('dependence').exec((err, user) => {
