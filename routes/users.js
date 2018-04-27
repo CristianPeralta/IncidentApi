@@ -7,10 +7,10 @@ const router = express.Router()
 router.use(middleware.verify)
 /* GET users listing. */
 
-router.get('/:id', userController.getOne)
 router.get('/', userController.read)
 router.get('/me', userController.getUser)
 router.get('/filter', userController.readBy)
+router.get('/:id', userController.getOne)
 
 router.post('/', userController.create)
 router.put('/', userController.update)

@@ -11,6 +11,7 @@ exports.verify = function (req, res, next) {
      // verifies secret and checks exp
      try {
        var decoded = jwt.verify(token, 'apisecretkeyincident');
+       console.log(decoded)
        req.user = decoded.id
        next();
      } catch(err) {
