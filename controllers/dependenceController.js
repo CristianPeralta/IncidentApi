@@ -5,14 +5,15 @@ import mongoose from 'mongoose'
 module.exports.create = (req, res) => {
   let data = req.body
   let newDependence = new Dependence()
-
   newDependence.name = data.name
   newDependence.acronym = data.acronym
   newDependence.annex = data.annex
   newDependence.latitude = data.latitude
   newDependence.longitude = data.longitude
 
-  if (req.file) newDependence.photo = req.file.path
+  if (req.file) {
+    newDependence.photo = 'http://' + req.headers.host + req.file.path.substring(6, req.file.path.length)
+  }
 
   newDependence.save((err, dependence) => {
       if (err) return res.sendStatus(503)

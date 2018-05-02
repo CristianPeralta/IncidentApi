@@ -4,16 +4,16 @@ import middleware from '../middleware'
 
 const router = express.Router()
 
-router.use(middleware.verify)
+// router.use(middleware.verify)
 /* GET users listing. */
 
-router.get('/', userController.read)
-router.get('/me', userController.getUser)
-router.get('/filter', userController.readBy)
-router.get('/:id', userController.getOne)
+router.get('/', middleware.verify, userController.read)
+router.get('/me', middleware.verify, userController.getUser)
+router.get('/filter', middleware.verify, userController.readBy)
+router.get('/:id', middleware.verify, userController.getOne)
 
 router.post('/', userController.create)
-router.put('/', userController.update)
-router.delete('/:id', userController.delete)
+router.put('/', middleware.verify, userController.update)
+router.delete('/:id', middleware.verify, userController.delete)
 
 module.exports = router

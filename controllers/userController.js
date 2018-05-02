@@ -53,7 +53,7 @@ module.exports.getUser = (req, res) => {
   if (req.user) {
     let id = req.user
     User.findOne({_id:id}).populate('dependence').exec((err, user) => {
-      if (err) return console.log(503)
+      if (err) return res.sendStatus(503)
       if (!user) return res.sendStatus(404)
       return res.json(user)
     })

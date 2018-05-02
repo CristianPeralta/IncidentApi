@@ -7,15 +7,11 @@ module.exports.create = (req, res) => {
   let newIncident = new Incident()
 
   newIncident.name = data.name
-  if (data.status) {
-    newIncident.status = data.status
-  }
+  if (data.status) newIncident.status = data.status
   newIncident.priority = data.priority
   newIncident.category = data.category
   newIncident.client = mongoose.Types.ObjectId(data.client)
-  if (data.technician) {
-    newIncident.technician = mongoose.Types.ObjectId(data.technician)
-  }
+  if (data.technician) newIncident.technician = mongoose.Types.ObjectId(data.technician)
   newIncident.dependence = mongoose.Types.ObjectId(data.dependence)
   newIncident.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
 
