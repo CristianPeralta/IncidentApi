@@ -15,7 +15,7 @@ module.exports.create = (req, res) => {
   newIncident.dependence = mongoose.Types.ObjectId(data.dependence)
   newIncident.registeredBy = mongoose.Types.ObjectId(data.registeredBy)
 
-  if (req.file) newIncident.photo = req.file.path
+  if (req.file) newIncident.photo = 'http://' + req.headers.host + req.file.path.substring(6, req.file.path.length)
 
   newIncident.save((err, incident) => {
       if (err) return res.sendStatus(503)
