@@ -54,6 +54,10 @@ module.exports.update = (req, res) => {
   let id = data._id
   delete data._id
 
+  if (req.file) {
+    data.photo = 'http://' + req.headers.host + req.file.path.substring(6, req.file.path.length)
+  }
+
   Dependence.findOneAndUpdate({_id: id}, data, {new: true}, (err, dependence) => {
     if (err) return res.sendStatus(503)
     if (!dependence) return res.sendStatus(404)
