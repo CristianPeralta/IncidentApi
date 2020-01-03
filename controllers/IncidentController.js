@@ -16,10 +16,10 @@ module.exports.create = (req, res) => {
 
   if (req.file) newIncident.photo = 'http://' + req.headers.host + req.file.path.substring(6, req.file.path.length)
 
-  newIncident.save((err, newIncident) => {
+  newIncident.save((err, nIncident) => {
       if (err) return res.sendStatus(503)
-      if (!newIncident) return res.sendStatus(404)
-      Incident.findOne({_id: newIncident._id}).populate('client').ppulate('dependence').populate('client').populate('technician').exec((iErr, incident) => {
+      if (!nIncident) return res.sendStatus(404)
+      Incident.findOne({_id: nIncident._id}).populate('client').ppulate('dependence').populate('client').populate('technician').exec((iErr, incident) => {
         if (iErr) return res.sendStatus(503)
         if (!incident) return res.sendStatus(404)
         return res.json(incident)
