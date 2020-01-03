@@ -16,9 +16,9 @@ module.exports.create = (req, res) => {
   user.dependence = mongoose.Types.ObjectId(data.dependence)
   data.registeredBy ? (user.registeredBy = mongoose.Types.ObjectId(data.registeredBy)) : console.log('No registeredBy');
   user.password = bcrypt.hashSync(data.password, 10)
-  user.save((err, user) => {
+  user.save((err, fUser) => {
       if (err) return res.sendStatus(503)
-      return res.json(user)
+      return res.json(fUser)
   });
 }
 
@@ -64,10 +64,10 @@ module.exports.update = (req, res) => {
   let data = req.body
   let id = data._id
   delete data._id
-  User.findOneAndUpdate({_id: id}, data, {new: true}, (err, user) => {
-    if (err) return res.sendStatus(503)
-    if (!user) return res.sendStatus(404)
-    User.findOne({_id: user._id}).populate('dependence').exec((err, user) => {
+  User.findOneAndUpdate({_id: id}, data, {new: true}, (uErr, fUser) => {
+    if (uErr) return res.sendStatus(503)
+    if (!fUser) return res.sendStatus(404)
+    User.findOne({_id: fUser._id}).populate('dependence').exec((err, user) => {
       if (err) return res.sendStatus(503)
       if (!user) return res.sendStatus(404)
       return res.json(user)

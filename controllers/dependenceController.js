@@ -1,6 +1,4 @@
 import Dependence from '../models/Dependence'
-import mongoose from 'mongoose'
-
 
 module.exports.create = (req, res) => {
   let data = req.body

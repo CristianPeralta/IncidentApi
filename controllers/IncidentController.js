@@ -1,4 +1,3 @@
-import Dependence from '../models/Incident'
 import mongoose from 'mongoose'
 
 
@@ -17,11 +16,11 @@ module.exports.create = (req, res) => {
 
   if (req.file) newIncident.photo = 'http://' + req.headers.host + req.file.path.substring(6, req.file.path.length)
 
-  newIncident.save((err, incident) => {
+  newIncident.save((err, newIncident) => {
       if (err) return res.sendStatus(503)
-      if (!incident) return res.sendStatus(404)
-      Incident.findOne({_id: incident._id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
-        if (err) return res.sendStatus(503)
+      if (!newIncident) return res.sendStatus(404)
+      Incident.findOne({_id: newIncident._id}).populate('client').ppulate('dependence').populate('client').populate('technician').exec((iErr, incident) => {
+        if (iErr) return res.sendStatus(503)
         if (!incident) return res.sendStatus(404)
         return res.json(incident)
       })
@@ -60,10 +59,10 @@ module.exports.update = (req, res) => {
   let id = data._id
   delete data._id
 
-  Incident.findOneAndUpdate({_id: id}, data, {new: true}, (err, incident) => {
-    if (err) return res.sendStatus(503)
-    if (!incident) return res.sendStatus(404)
-    Incident.findOne({_id: incident._id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
+  Incident.findOneAndUpdate({_id: id}, data, {new: true}, (iErr, fIncident) => {
+    if (iErr) return res.sendStatus(503)
+    if (!fIncident) return res.sendStatus(404)
+    Incident.findOne({_id: fIncident._id}).populate('client').populate('dependence').populate('client').populate('technician').exec((err, incident) => {
       if (err) return res.sendStatus(503)
       if (!incident) return res.sendStatus(404)
       return res.json(incident)
