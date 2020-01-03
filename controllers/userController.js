@@ -90,7 +90,6 @@ module.exports.login = (req,res) => {
     if (err) return res.sendStatus(503)
     if (!user) return res.sendStatus(404)
     if (bcrypt.compareSync(data.password, user.password)) {
-      if (err) return res.sendStatus(503)
       let payload = {
         id: user._id,
         role: user.role
